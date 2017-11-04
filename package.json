@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "gulp build",
+    "watch": "gulp watch"
   },
   "author": "Divya Mamgai (divyamamgai21@gmail.com)",
   "license": "ISC",
@@ -21,7 +22,11 @@
     "gulp-sass": "^3.1.0",
     "gulp-uglify": "^3.0.0",
     "gulp-useref": "^3.1.2",
-    "knockout": "^3.4.2",
     "run-sequence": "^2.2.0"
+  },
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.2.1",
+    "knockout": "^3.4.2"
   }
 }
