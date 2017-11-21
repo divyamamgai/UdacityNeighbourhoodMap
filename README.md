@@ -26,3 +26,5 @@ gulp watch
 **build:bundle** - Bundles together CSS and JS files
 **clean:dist** - Cleans up the dist folder
 **cache:clear** - Clears cached content
+##### Demo
+To view a demo visit - [https://divyamamgai.github.io/UdacityNeighbourhoodMap/dist/](https://divyamamgai.github.io/UdacityNeighbourhoodMap/dist/)
