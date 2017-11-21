@@ -39,13 +39,16 @@ gulp.task('build:bundle', function () {
         .pipe(useref())
         .pipe(gulpIf('*.js', uglify()))
         .pipe(gulpIf('*.css', cssnano()))
-        .pipe(gulp.dest('dist'));
+        .pipe(gulp.dest('dist'))
+        .pipe(browserSync.reload({
+            stream: true
+        }));
 });
 
 gulp.task('browserSync', function () {
     browserSync.init({
         server: {
-            baseDir: 'app'
+            baseDir: 'dist'
         }
     });
 });
@@ -62,8 +65,8 @@ gulp.task('build', function () {
     runSequence('clean:dist', ['build:css', 'build:images', 'build:fonts'], 'build:bundle');
 });
 
-gulp.task('watch', ['browserSync', 'build:css'], function () {
-    gulp.watch('app/scss/**/*.scss', ['build:css']);
-    gulp.watch('app/*.html', browserSync.reload);
-    gulp.watch('app/js/**/*.js', browserSync.reload);
+gulp.task('watch', ['browserSync', 'build'], function () {
+    gulp.watch('app/scss/**/*.scss', ['build:css', 'build:bundle']);
+    gulp.watch('app/*.html', ['build:bundle']);
+    gulp.watch('app/js/**/*.js', ['build:bundle']);
 });

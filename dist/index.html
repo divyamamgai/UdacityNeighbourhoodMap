@@ -1,10 +1,31 @@
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
-    <title>Neighbourhood Map</title>
-    <link rel="stylesheet" href="css/styles.min.css">
-    <script src="js/main.min.js"></script>
+    <title>Explore Bangalore</title>
+    <link rel="stylesheet" href="css/main.min.css">
 </head>
 <body>
+<div class="container-fluid mainframe">
+    <div class="row">
+        <div class="col-md-3 sidebar">
+            <h1>
+                <span class="dark">Explore</span>
+                <br>
+                Bangalore
+            </h1>
+            <input id="filter-location-input" type="search" title="Filter Locations" placeholder="Filter Locations"
+                   data-bind="textInput: filterLocation, valueUpdate: 'afterkeydown'">
+            <ul class="marker-list" data-bind="foreach: filteredLocations">
+                <li class="marker-list-item" data-bind="text: title, click:$parent.markerOnClick"></li>
+
+            </ul>
+        </div>
+        <div class="col-md-9 padding-0">
+            <div id="map"></div>
+        </div>
+    </div>
+</div>
+<script src="js/main.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyAxw8Sd8TB3LCxf6clAXj8wfWtod54F6dQ&callback=mapsOnLoad"></script>
 </body>
 </html>
