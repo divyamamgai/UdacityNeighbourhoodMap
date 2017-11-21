@@ -301,10 +301,11 @@
 
                         $.getJSON('https://api.foursquare.com/v2/venues/' + venue.id + '/photos?client_id=1U50B2EYYGDZUCRWBKOUJORBGKRUHUM302IGKDA31UEZXNU3&client_secret=5GCCEHECDAZB54MUF1UC4RXUDFJLYSI3UDJPMKOS3ZHTQE5D&v=20170708&m=foursquare')
                             .done(function (data) {
-                                var photo = data.response.photos.items[0];
+                                var photo = data.response.photos.items[0],
+                                    url = undefined;
 
                                 if (photo) {
-                                    var url = photo.prefix + '100x100' + photo.suffix;
+                                    url = photo.prefix + '100x100' + photo.suffix;
                                 }
                                 vm.infoWindow.setContent(
                                     '<div class="marker-info-window">' + (url ? ('<img class="photo float-left" src="' + url +
