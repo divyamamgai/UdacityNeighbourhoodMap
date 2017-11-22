@@ -1,278 +1,14 @@
 (function (w, d, $, ko, undefined) {
     'use strict';
 
-    var Location = function (location) {
-        this.id = Location.count++;
-        this.title = location.title;
-        this.lat = location.lat;
-        this.lng = location.lng;
-    };
-
-    Location.count = 0;
-
-    /**
-     * @returns {google.maps.Marker}
-     */
-    Location.prototype.getMarker = function () {
-        return new google.maps.Marker({
-            map: map,
-            position: {
-                lat: this.lat,
-                lng: this.lng
-            },
-            title: this.title,
-            lat: this.lat,
-            lng: this.lng,
-            id: this.id,
-            animation: google.maps.Animation.DROP
-        });
-    };
-
-    var locations = [
-        new Location({
-            title: 'PlanB',
-            lat: 12.9680058,
-            lng: 77.6068975
-        }),
-        new Location({
-            title: 'Kobe Sizzlers',
-            lat: 12.9700973,
-            lng: 77.6099778
-        }),
-        new Location({
-            title: 'Coffee World',
-            lat: 12.9723127,
-            lng: 77.60676549999999
-        }),
-        new Location({
-            title: 'Olive Bar And Kitchen',
-            lat: 12.966975,
-            lng: 77.608058
-        }),
-        new Location({
-            title: 'Kanti Sweets',
-            lat: 12.9705515,
-            lng: 77.60667549999999
-        }),
-        new Location({
-            title: 'Just Bake',
-            lat: 12.9701259,
-            lng: 77.6104053
-        }),
-        new Location({
-            title: 'Meghana Foods',
-            lat: 12.9729674,
-            lng: 77.6092793
-        }),
-        new Location({
-            title: 'Stars \'N\' Stripes',
-            lat: 12.971009,
-            lng: 77.6067204
-        }),
-        new Location({
-            title: 'Arbor Brewing Company',
-            lat: 12.9701406,
-            lng: 77.61091060000001
-        }),
-        new Location({
-            title: 'Communiti Brew',
-            lat: 12.9722659,
-            lng: 77.60830869999999
-        })
-    ];
-
     /** @type jQuery */
-    var $map;
+    var $map,
+        $sidebar;
 
     var mapOptions = {
         center: undefined,
         zoom: 17,
-        styles: [
-            {
-                "elementType": "geometry",
-                "stylers": [
-                    {
-                        "color": "#212121"
-                    }
-                ]
-            },
-            {
-                "elementType": "labels.icon",
-                "stylers": [
-                    {
-                        "visibility": "off"
-                    }
-                ]
-            },
-            {
-                "elementType": "labels.text.fill",
-                "stylers": [
-                    {
-                        "color": "#757575"
-                    }
-                ]
-            },
-            {
-                "elementType": "labels.text.stroke",
-                "stylers": [
-                    {
-                        "color": "#212121"
-                    }
-                ]
-            },
-            {
-                "featureType": "administrative",
-                "elementType": "geometry",
-                "stylers": [
-                    {
-                        "color": "#757575"
-                    }
-                ]
-            },
-            {
-                "featureType": "administrative.country",
-                "elementType": "labels.text.fill",
-                "stylers": [
-                    {
-                        "color": "#9e9e9e"
-                    }
-                ]
-            },
-            {
-                "featureType": "administrative.land_parcel",
-                "stylers": [
-                    {
-                        "visibility": "off"
-                    }
-                ]
-            },
-            {
-                "featureType": "administrative.locality",
-                "elementType": "labels.text.fill",
-                "stylers": [
-                    {
-                        "color": "#bdbdbd"
-                    }
-                ]
-            },
-            {
-                "featureType": "poi",
-                "elementType": "labels.text.fill",
-                "stylers": [
-                    {
-                        "color": "#757575"
-                    }
-                ]
-            },
-            {
-                "featureType": "poi.park",
-                "elementType": "geometry",
-                "stylers": [
-                    {
-                        "color": "#181818"
-                    }
-                ]
-            },
-            {
-                "featureType": "poi.park",
-                "elementType": "labels.text.fill",
-                "stylers": [
-                    {
-                        "color": "#616161"
-                    }
-                ]
-            },
-            {
-                "featureType": "poi.park",
-                "elementType": "labels.text.stroke",
-                "stylers": [
-                    {
-                        "color": "#1b1b1b"
-                    }
-                ]
-            },
-            {
-                "featureType": "road",
-                "elementType": "geometry.fill",
-                "stylers": [
-                    {
-                        "color": "#2c2c2c"
-                    }
-                ]
-            },
-            {
-                "featureType": "road",
-                "elementType": "labels.text.fill",
-                "stylers": [
-                    {
-                        "color": "#8a8a8a"
-                    }
-                ]
-            },
-            {
-                "featureType": "road.arterial",
-                "elementType": "geometry",
-                "stylers": [
-                    {
-                        "color": "#373737"
-                    }
-                ]
-            },
-            {
-                "featureType": "road.highway",
-                "elementType": "geometry",
-                "stylers": [
-                    {
-                        "color": "#3c3c3c"
-                    }
-                ]
-            },
-            {
-                "featureType": "road.highway.controlled_access",
-                "elementType": "geometry",
-                "stylers": [
-                    {
-                        "color": "#4e4e4e"
-                    }
-                ]
-            },
-            {
-                "featureType": "road.local",
-                "elementType": "labels.text.fill",
-                "stylers": [
-                    {
-                        "color": "#616161"
-                    }
-                ]
-            },
-            {
-                "featureType": "transit",
-                "elementType": "labels.text.fill",
-                "stylers": [
-                    {
-                        "color": "#757575"
-                    }
-                ]
-            },
-            {
-                "featureType": "water",
-                "elementType": "geometry",
-                "stylers": [
-                    {
-                        "color": "#000000"
-                    }
-                ]
-            },
-            {
-                "featureType": "water",
-                "elementType": "labels.text.fill",
-                "stylers": [
-                    {
-                        "color": "#3d3d3d"
-                    }
-                ]
-            }
-        ]
+        styles: mapStyles
     };
 
     /** @type google.maps.Map */
@@ -318,11 +54,11 @@
                             })
                             .fail(function (error) {
                                 console.log(error);
-                                alert('Error occurred while performing Foursquare API request!');
+                                alert('Error occurred while performing Foursquare API request, please retry.');
                             });
                     })
                     .fail(function () {
-                        alert('Error occurred while performing Foursquare API request!');
+                        alert('Error occurred while performing Foursquare API request, please retry.');
                     });
                 vm.infoWindow.marker = marker;
                 vm.infoWindow.setContent('<div class="marker-info-window"><i class="glyphicon glyphicon-refresh loading"></i></div>');
@@ -338,6 +74,9 @@
             var marker = this;
             vm.showInfoWindow(marker);
             marker.setAnimation(google.maps.Animation.Ro);
+            if ($sidebar.hasClass('opened')) {
+                $sidebar.removeClass('opened').addClass('closed');
+            }
         };
 
         vm.initializeMap = function () {
@@ -368,8 +107,28 @@
     }
 
     w.mapsOnLoad = function () {
-        $map = $('#map', d);
         mapOptions.center = new google.maps.LatLng(12.9701, 77.609);
         ko.applyBindings(new AppViewModel());
     };
+
+    $(function () {
+        $sidebar = $('.sidebar', d);
+        $map = $('#map', d);
+        $.getScript('https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyAxw8Sd8TB3LCxf6clAXj8wfWtod54F6dQ&callback=mapsOnLoad')
+            .fail(function () {
+                alert('Error occurred while loading Google Maps API, please retry.');
+            });
+    });
+
+    $(d)
+        .on('click', '.sidebar-open', function () {
+            if ($sidebar.hasClass('closed')) {
+                $sidebar.removeClass('closed').addClass('opened');
+            }
+        })
+        .on('click', '.sidebar-close', function () {
+            if ($sidebar.hasClass('opened')) {
+                $sidebar.removeClass('opened').addClass('closed');
+            }
+        });
 })(window, document, jQuery, ko);

@@ -14,6 +14,7 @@ html, body {
   padding: 0;
   font-size: 10px;
   font-family: "Roboto Condensed", sans-serif;
+  overflow: hidden;
 }
 
 .mainframe {
@@ -24,20 +25,52 @@ html, body {
 .sidebar {
   background-color: $primary-color;
   height: 100vh;
-  border-right: solid 0.1rem lighten($primary-color, 25%);
+  border-right: solid 0.1rem $secondary-text-color;
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  h1 {
+    color: $primary-text-color;
+    margin: 1.5rem 0;
+    padding: 0;
+    font-size: 2.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2rem;
+
+    .dark {
+      color: $secondary-text-color;
+    }
+  }
+
+  &::-webkit-scrollbar {
+    width: 0.3rem;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: $primary-color;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $secondary-text-color;
+  }
 }
 
-.sidebar h1 {
-  color: $primary-text-color;
-  margin: 1.5rem 0;
-  padding: 0;
-  font-size: 2.4rem;
-  text-transform: uppercase;
-  letter-spacing: 0.2rem;
-}
-
-.sidebar h1 .dark {
+.sidebar-close, .sidebar-open {
   color: $secondary-text-color;
+  font-size: 2.4rem;
+  cursor: pointer;
+  display: none;
+}
+
+.sidebar-close:hover, .sidebar-open:hover {
+  color: $primary-text-color;
+}
+
+.sidebar-open {
+  position: fixed;
+  top: 5rem;
+  left: 1.5rem;
+  z-index: 1;
 }
 
 #filter-location-input {
@@ -52,22 +85,22 @@ html, body {
   font-weight: bold;
   letter-spacing: 0.1rem;
   outline: none;
-}
 
-#filter-location-input::-webkit-input-placeholder {
-  color: $secondary-text-color !important;
-}
+  &::-webkit-input-placeholder {
+    color: $secondary-text-color !important;
+  }
 
-#filter-location-input:-moz-placeholder {
-  color: $secondary-text-color !important;
-}
+  &:-moz-placeholder {
+    color: $secondary-text-color !important;
+  }
 
-#filter-location-input::-moz-placeholder {
-  color: $secondary-text-color !important;
-}
+  &::-moz-placeholder {
+    color: $secondary-text-color !important;
+  }
 
-#filter-location-input:-ms-input-placeholder {
-  color: $secondary-text-color !important;
+  &:-ms-input-placeholder {
+    color: $secondary-text-color !important;
+  }
 }
 
 .marker-list {
@@ -99,47 +132,47 @@ html, body {
 
 #map {
   height: 100vh;
+  z-index: 0;
 }
 
 .marker-info-window {
   font-size: 1.3rem;
   padding: 0.5rem 0;
-}
 
-.marker-info-window .text-container {
-  max-width: 150px;
+  .text-container {
+    max-width: 150px;
+  }
 
-}
+  .title {
+    font-size: 2rem;
+  }
 
-.marker-info-window .title {
-  font-size: 2rem;
-}
+  .photo {
+    display: block;
+    margin-right: 1rem;
+    border: solid 0.2rem darken($primary-color, 10%);
+    -webkit-box-shadow: 0.2rem 0.2rem 0 rgba($primary-color, 0.4);
+    -moz-box-shadow: 0.2rem 0.2rem 0 rgba($primary-color, 0.4);
+    box-shadow: 0.2rem 0.2rem 0 rgba($primary-color, 0.4);
+  }
 
-.marker-info-window .photo {
-  display: block;
-  margin-right: 1rem;
-  border: solid 0.2rem darken($primary-color, 10%);
-  -webkit-box-shadow: 0.2rem 0.2rem 0 rgba($primary-color, 0.4);
-  -moz-box-shadow: 0.2rem 0.2rem 0 rgba($primary-color, 0.4);
-  box-shadow: 0.2rem 0.2rem 0 rgba($primary-color, 0.4);
-}
+  .category {
+    display: inline-block;
+    color: #777777;
+    padding-bottom: 0.2rem;
+  }
 
-.marker-info-window .category {
-  display: inline-block;
-  color: #777777;
-  padding-bottom: 0.2rem;
-}
-
-.marker-info-window .loading {
-  font-size: 2.4rem;
-  -webkit-animation: loading 1s infinite linear;
-  -o-animation: loading 1s infinite linear;
-  animation: loading 1s infinite linear;
-  -webkit-transform-origin: 50% 50%;
-  -moz-transform-origin: 50% 50%;
-  -ms-transform-origin: 50% 50%;
-  -o-transform-origin: 50% 50%;
-  transform-origin: 50% 50%;
+  .loading {
+    font-size: 2.4rem;
+    -webkit-animation: loading 1s infinite linear;
+    -o-animation: loading 1s infinite linear;
+    animation: loading 1s infinite linear;
+    -webkit-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+  }
 }
 
 @keyframes loading {
@@ -169,4 +202,31 @@ html, body {
 
 .float-right {
   float: right;
+}
+
+@media all and (max-width: 767px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    z-index: 2;
+    -webkit-transition: left 0.2s ease-in-out;
+    -moz-transition: left 0.2s ease-in-out;
+    -ms-transition: left 0.2s ease-in-out;
+    -o-transition: left 0.2s ease-in-out;
+    transition: left 0.2s ease-in-out;
+
+    &.opened {
+      left: 0;
+    }
+
+    &.closed {
+      left: -250px;
+    }
+  }
+
+  .sidebar-close, .sidebar-open {
+    display: inline-block;
+  }
 }

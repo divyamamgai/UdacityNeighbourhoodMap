@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
     <title>Explore Bangalore</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1,width=device-width">
     <!--build:css css/main.min.css-->
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/main.css">
@@ -10,20 +12,23 @@
 <body>
 <div class="container-fluid mainframe">
     <div class="row">
-        <div class="col-md-3 sidebar">
-            <h1>
-                <span class="dark">Explore</span>
-                <br>
-                Bangalore
-            </h1>
-            <input id="filter-location-input" type="search" title="Filter Locations" placeholder="Filter Locations"
-                   data-bind="textInput: filterLocation, valueUpdate: 'afterkeydown'">
-            <ul class="marker-list" data-bind="foreach: filteredLocations">
-                <li class="marker-list-item" data-bind="text: title, click:$parent.markerOnClick"></li>
-
-            </ul>
+        <div class="col-xs-12 col-sm-4 col-md-3 sidebar closed">
+            <nav>
+                <h1>
+                    <i class="glyphicon glyphicon-remove sidebar-close float-right" title="Hide Navigation"></i>
+                    <span class="dark">Explore</span>
+                    <br>
+                    Bangalore
+                </h1>
+                <input id="filter-location-input" type="search" title="Filter Locations" placeholder="Filter Locations"
+                       data-bind="textInput: filterLocation, valueUpdate: 'afterkeydown'">
+                <ul class="marker-list" data-bind="foreach: filteredLocations">
+                    <li class="marker-list-item" data-bind="text: title, click:$parent.markerOnClick"></li>
+                </ul>
+            </nav>
         </div>
-        <div class="col-md-9 padding-0">
+        <div class="col-xs-12 col-sm-8 col-md-9 padding-0">
+            <i class="glyphicon glyphicon-menu-hamburger sidebar-open" title="Show Navigation"></i>
             <div id="map"></div>
         </div>
     </div>
@@ -31,8 +36,9 @@
 <!--build:js js/main.min.js -->
 <script type="text/javascript" src="../node_modules/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript" src="../node_modules/knockout/build/output/knockout-latest.js"></script>
+<script type="text/javascript" src="js/locations.js"></script>
+<script type="text/javascript" src="js/mapStyles.js"></script>
 <script type="text/javascript" src="js/main.js"></script>
 <!--endbuild-->
-<script src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyAxw8Sd8TB3LCxf6clAXj8wfWtod54F6dQ&callback=mapsOnLoad"></script>
 </body>
 </html>
