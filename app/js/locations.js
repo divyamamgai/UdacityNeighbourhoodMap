@@ -12,7 +12,6 @@ Location.count = 0;
  */
 Location.prototype.getMarker = function () {
     return new google.maps.Marker({
-        map: map,
         position: {
             lat: this.lat,
             lng: this.lng
